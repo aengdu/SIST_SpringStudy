@@ -51,4 +51,16 @@ public class FoodDAO {
 	public FoodVO foodCookieDetailData(int fno) {
 		  return mapper.foodDetailData(fno);
 	}
+	
+	public List<FoodVO> foodLocationFindData(Map map) {
+		return mapper.foodLocationFindData(map);
+	}
+	
+	public FoodVO foodLocationDetailData(int fno) {
+		return mapper.foodLocationDetailData(fno);
+	}
+	
+	public int foodFindTotalPage(String address) {
+		return mapper.foodFindTotalPage(address);
+	}
 }

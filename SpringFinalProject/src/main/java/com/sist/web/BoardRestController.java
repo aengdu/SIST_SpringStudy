@@ -89,4 +89,6 @@ public class BoardRestController {
 	   String res=dao.boardDelete(no, pwd);
 	   return res;
    }
+
+   
 }
