@@ -142,6 +142,7 @@ public class FoodRestController {
         return obj.toJSONString();
     }
 
+    // 검색
     @GetMapping(value = "food/food_find_vue.do", produces = "text/plain;charset=UTF-8")
     public String food_find_vue(String page, String address) {
         if (page == null)
@@ -158,11 +159,12 @@ public class FoodRestController {
         int totalpage = dao.foodFindTotalPage(address);
 
         final int BLOCK = 3;
-        int startpage = ((curpage = 1) / BLOCK * BLOCK) + 1;
-        int endpage = ((curpage - 1) / BLOCK * BLOCK) + BLOCK;
-        if (endpage > totalpage)
-            endpage = totalpage;
+        int startPage = ((curpage - 1) / BLOCK * BLOCK) + 1;
+        int endPage = ((curpage - 1) / BLOCK * BLOCK) + BLOCK;
+        if (endPage > totalpage)
+            endPage = totalpage;
 
+        // 데이터 전송 : JSON
         int i = 0;
         JSONArray arr = new JSONArray();
         for (FoodVO vo : list) {
@@ -178,16 +180,17 @@ public class FoodRestController {
             if (i == 0) {
                 obj.put("curpage", curpage);
                 obj.put("totalpage", totalpage);
-                obj.put("startpage", startpage);
-                obj.put("endpage", endpage);
+                obj.put("startPage", startPage);
+                obj.put("endPage", endPage);
             }
+
             arr.add(obj);
             i++;
         }
         return arr.toJSONString();
     }
 
-    @GetMapping("food_find_gu_vue.do")
+    @GetMapping(value = "food/food_find_gu_vue.do", produces = "text/plain;charset=UTF-8")
     public String food_find_gu_vue(String page, int gu) {
         String[] guList = {"전체", "강서구", "양천구", "구로구", "마포구", "영등포구", "금천구",
                 "은평구", "서대문구", "동작구", "관악구", "종로구", "중구", "용산구", "서초구", "강북구",
@@ -195,23 +198,21 @@ public class FoodRestController {
                 "강동구"};
         if (page == null)
             page = "1";
-        if (address == null)
-            address = "역삼";
-
         int curpage = Integer.parseInt(page);
         Map map = new HashMap();
         map.put("start", (curpage * 20) - 19);
         map.put("end", (curpage * 20));
-        map.put("address", address);
+        map.put("address", guList[gu]);
         List<FoodVO> list = dao.foodLocationFindData(map);
-        int totalpage = dao.foodFindTotalPage(address);
+        int totalpage = dao.foodFindTotalPage(guList[gu]);
 
         final int BLOCK = 3;
-        int startpage = ((curpage = 1) / BLOCK * BLOCK) + 1;
-        int endpage = ((curpage - 1) / BLOCK * BLOCK) + BLOCK;
-        if (endpage > totalpage)
-            endpage = totalpage;
+        int startPage = ((curpage - 1) / BLOCK * BLOCK) + 1;
+        int endPage = ((curpage - 1) / BLOCK * BLOCK) + BLOCK;
+        if (endPage > totalpage)
+            endPage = totalpage;
 
+        // 데이터 전송 : JSON
         int i = 0;
         JSONArray arr = new JSONArray();
         for (FoodVO vo : list) {
@@ -227,9 +228,10 @@ public class FoodRestController {
             if (i == 0) {
                 obj.put("curpage", curpage);
                 obj.put("totalpage", totalpage);
-                obj.put("startpage", startpage);
-                obj.put("endpage", endpage);
+                obj.put("startPage", startPage);
+                obj.put("endPage", endPage);
             }
+
             arr.add(obj);
             i++;
         }
@@ -237,7 +239,6 @@ public class FoodRestController {
     }
 
 }
-
 
 
 
